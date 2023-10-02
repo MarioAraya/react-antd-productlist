@@ -30,3 +30,8 @@
 1. Descargar repositorio a ambiente local
 2. Entrar a la carpeta del proyecto y ejecutar `npm install` y luego `npm start`
 3. Ingresar en el browser a localhost:8080
+
+## LINKS DE REFERENCIA
+
+- Agregar código existente en mi ambiente local, a un repositorio Git online (https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-push-an-existing-project-to-GitHub)
+-

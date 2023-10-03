@@ -10,7 +10,7 @@
 
 ## TAREAS:
 
-- Primero hacer una nueva carpeta en mi Laptop para crear luego el presente README.md
+- Crear nueva carpeta en mi PC para crear luego el presente README.md
 - Crear en Github un repo público y linkearlo con mi repo local mediante SSH o Github CLI
 - Crear proyecto React o Vue mediante usando "vite" en lugar de Webpack (create-react-app) que es más lento
 - Instalar dependencias Antd (componente responsive para mostrar data) (es open source y mejor que Material)

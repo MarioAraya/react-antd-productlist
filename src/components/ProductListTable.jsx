@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Table } from 'antd';
 
 const columns = [
@@ -23,39 +23,43 @@ const columns = [
     dataIndex: 'categoria',
   }
 ];
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  getCheckboxProps: (record) => ({
-    disabled: record.categoria === 'DDD',
-    // Column configuration not to be checked
-    nombre: record.nombre,
-  }),
-};
 
 function ProductListTable({ list }) {
-  useEffect(() => {
-    console.log(list);
-  }, [list])
+  const [alreadySelectedRows, setAlreadySelectedRows] = useState([])
 
-  function addToCart() {
-    console.log('rowSeleccion: ', rowSelection.selectedRowKeys)
+  useEffect(() => {
+    console.log('alreadySelectedRows', alreadySelectedRows);
+  }, [alreadySelectedRows])
+
+  const rowSelection = {
+    selectedRowKeys: alreadySelectedRows,
+    onChange: (keys) => {
+      setAlreadySelectedRows(keys);
+    },
+    type: 'checkbox',
+    getCheckboxProps: (record) => ({
+      disabled: record.categoria === 'DDD',
+      // Column configuration not to be checked
+      nombre: record.nombre,
+    }),
+  };
+  const onClickAddToCart = () => {
+    console.log('rowSeleccion: ', alreadySelectedRows)
   }
-  function ButtonAddToCart() {
+  const ButtonAddToCart = () => {
+    if (alreadySelectedRows.length === 0)
+      return;
+    const text = alreadySelectedRows.length > 1 ? "los productos" : "el producto"
     return (
-      <Button onClick={addToCart}>Agregar producto(s) al carrito</Button>
+      <Button onClick={onClickAddToCart}>{`Agregar ${text} al carrito`}</Button>
     )
   }
   return (
     <Table
       title={() => 'Lista de Productos'}
-      footer={ButtonAddToCart}
+      footer={() => <ButtonAddToCart />}
       rowKey="nombre"
-      rowSelection={{
-        type: 'checkbox',
-        ...rowSelection,
-      }}
+      rowSelection={rowSelection}
       columns={columns}
       dataSource={list}
     />

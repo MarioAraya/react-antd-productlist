@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Table, Tag } from 'antd';
 
-const columns = (cart) => [
+const columns = (cart, list) => [
   {
     title: 'Img',
     dataIndex: 'img',
@@ -9,6 +9,9 @@ const columns = (cart) => [
   {
     title: 'Nombre',
     dataIndex: 'nombre',
+    filterSearch: true,
+    filters: list.map(p => ({ text: p.nombre, value: p.nombre })),
+    onFilter: (value, record) => record?.nombre.includes(value),
   },
   {
     title: 'Precio',
@@ -21,6 +24,7 @@ const columns = (cart) => [
   {
     title: 'Categoria',
     dataIndex: 'categoria',
+    filterSearch: true,
     filters: [
       {
         text: 'AAA',
@@ -54,10 +58,6 @@ function ProductListTable({ list }) {
   const [alreadySelectedRows, setAlreadySelectedRows] = useState([])
   const [cart, setCart] = useState([])
 
-  useEffect(() => {
-    console.log('cart', cart);
-  }, [cart])
-
   const rowSelection = {
     selectedRowKeys: alreadySelectedRows,
     onChange: (keys) => {
@@ -86,7 +86,7 @@ function ProductListTable({ list }) {
       footer={() => <ButtonAddToCart />}
       rowKey="nombre"
       rowSelection={rowSelection}
-      columns={columns(cart)}
+      columns={columns(cart, list)}
       dataSource={list}
     />
   )

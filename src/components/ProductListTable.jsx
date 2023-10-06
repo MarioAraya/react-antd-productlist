@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Table } from 'antd';
+import { Button, Table, Tag } from 'antd';
 
-const columns = [
+const columns = (cart) => [
   {
     title: 'Img',
     dataIndex: 'img',
@@ -21,15 +21,42 @@ const columns = [
   {
     title: 'Categoria',
     dataIndex: 'categoria',
+    filters: [
+      {
+        text: 'AAA',
+        value: 'AAA',
+      },
+      {
+        text: 'BBB',
+        value: 'BBB',
+      },
+      {
+        text: 'CCC',
+        value: 'CCC',
+      },
+      {
+        text: 'DDD',
+        value: 'DDD',
+      },
+    ],
+    onFilter: (value, record) => record?.categoria.indexOf(value) === 0,
+  },
+  {
+    title: '',
+    render: (record) => {
+      console.log('inCart', cart);
+      return cart.includes(record.nombre) ? <Tag>En el carrito</Tag> : ''
+    }
   }
 ];
 
 function ProductListTable({ list }) {
   const [alreadySelectedRows, setAlreadySelectedRows] = useState([])
+  const [cart, setCart] = useState([])
 
   useEffect(() => {
-    console.log('alreadySelectedRows', alreadySelectedRows);
-  }, [alreadySelectedRows])
+    console.log('cart', cart);
+  }, [cart])
 
   const rowSelection = {
     selectedRowKeys: alreadySelectedRows,
@@ -44,7 +71,7 @@ function ProductListTable({ list }) {
     }),
   };
   const onClickAddToCart = () => {
-    console.log('rowSeleccion: ', alreadySelectedRows)
+    setCart(alreadySelectedRows);
   }
   const ButtonAddToCart = () => {
     if (alreadySelectedRows.length === 0)
@@ -56,11 +83,10 @@ function ProductListTable({ list }) {
   }
   return (
     <Table
-      title={() => 'Lista de Productos'}
       footer={() => <ButtonAddToCart />}
       rowKey="nombre"
       rowSelection={rowSelection}
-      columns={columns}
+      columns={columns(cart)}
       dataSource={list}
     />
   )

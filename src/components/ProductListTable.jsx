@@ -9,7 +9,6 @@ const columns = (cart, list) => [
   {
     title: 'Nombre',
     dataIndex: 'nombre',
-    filterSearch: true,
     filters: list.map(p => ({ text: p.nombre, value: p.nombre })),
     onFilter: (value, record) => record?.nombre.includes(value),
   },
@@ -25,24 +24,8 @@ const columns = (cart, list) => [
     title: 'Categoria',
     dataIndex: 'categoria',
     filterSearch: true,
-    filters: [
-      {
-        text: 'AAA',
-        value: 'AAA',
-      },
-      {
-        text: 'BBB',
-        value: 'BBB',
-      },
-      {
-        text: 'CCC',
-        value: 'CCC',
-      },
-      {
-        text: 'DDD',
-        value: 'DDD',
-      },
-    ],
+    filters: list.map(p => ({ text: p.categoria, value: p.categoria })),
+    // filters: [...new Set(list)].map(p => ({ text: p.categoria, value: p.categoria })),
     onFilter: (value, record) => record?.categoria.indexOf(value) === 0,
   },
   {
